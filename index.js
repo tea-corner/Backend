@@ -1,11 +1,14 @@
 import  express from "express"
 import mongoose from "mongoose"
-
+import routers from "./routes/routess.js"
 const PORT = 5000
 
 const DB_URL = "mongodb+srv://lorex59:25092003Danil@project.lfdeyhb.mongodb.net/project?retryWrites=true&w=majority"
 
 const app = express()
+
+app.use("/api", routers)
+
 
 async function startApp(uri, callback){
     try {
