@@ -9,6 +9,7 @@ const app = express()
 
 async function startApp(uri, callback){
     try {
+        console.log()
         await mongoose.connect(DB_URL,{useNewUrlParser: true, useUnifiedTopology: true})
         app.listen(PORT, () => console.log("Server start on port" + PORT))
     }catch (e) {
