@@ -4,7 +4,9 @@ class UserController{
     //test hmm? not work. WTF??
     async create(req,res){
         try{
-            const user = await User.create(req.body)
+            const userPost = req.body
+            const user = await User.create(userPost)
+            console.log(userPost)
             res.json(user)
         }catch (e) {
             res.json(e.message)

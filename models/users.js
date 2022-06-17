@@ -45,9 +45,8 @@ const User = new mongoose.Schema({
         type: Number,
         required: true
     },
-    toDoс: {
+    toDo: {
         //FIXME
-
         type: Number,
         required: true
     },
@@ -71,6 +70,6 @@ const User = new mongoose.Schema({
         type: Number,
         required: true
     }
-})
+},{ versionKey: false })
 
 export default mongoose.model("users", User)

@@ -7,6 +7,7 @@ const DB_URL = "mongodb+srv://lorex59:25092003Danil@project.lfdeyhb.mongodb.net/
 
 const app = express()
 
+app.use(express.json())
 app.use("/api", routers)
 
 
