@@ -37,10 +37,10 @@ class UserController{
         }
     }
     async deleteUser(req,res){
-        try{
+        try {
             const user = await User.findByIdAndDelete(req.params.id)
             res.json(user)
-        }catch(e){
+        } catch(e) {
 
         }
 
