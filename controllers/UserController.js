@@ -1,5 +1,8 @@
 import User from "../models/Users.js"
 import Inventory from "../models/Inventory.js";
+import Dailies from "../models/Dailies.js";
+import Habits from "../models/Habits.js";
+import ToDo from "../models/ToDo.js";
 
 class UserController{
 
@@ -11,7 +14,19 @@ class UserController{
             if (isDB === null) {
                 console.log("getUserExam is not DB")
                 const newUser = await User.create(req.body)
-                res.json(newUser)
+                const inventory = await Inventory.create({userNickname: req.body.userNickname})
+                const habits = await Habits.find( {userNickname: req.body.userNickname} )
+                const dailies = await Dailies.find( {userNickname: req.body.userNickname} )
+                const toDo = await ToDo.find( {userNickname: req.body.userNickname} )
+
+                res.json({
+                    user: newUser,
+                    habits: habits,
+                    dailies: dailies,
+                    toDO: toDo,
+                    inventory: inventory
+                })
+
             } else {
                 console.log("getUserExam in DB")
                 res.json(null)
@@ -31,11 +46,21 @@ class UserController{
                 res.json("User not found")
             } else {
                 if (user.password === isDB.password) {
-                    res.json(isDB)
+                    const inventory = await Inventory.findOne({userNickname: isDB.userNickname})
+                    const habits = await Habits.findOne( {userNickname: isDB.userNickname} )
+                    const dailies = await Dailies.findOne( {userNickname: isDB.userNickname} )
+                    const toDo = await ToDo.findOne( {userNickname: isDB.userNickname} )
+
+                    res.json({
+                        user: isDB,
+                        habits: habits,
+                        dailies: dailies,
+                        toDO: toDo,
+                        inventory: inventory
+                    })
                 } else {
                     console.log("Invalid password")
-                    res.json("Invalid password!")
-                    //TODO
+                    res.json("Invalid password")
                 }
             }
         } catch (e){
@@ -51,6 +76,8 @@ class UserController{
             res.json(e.message)
         }
     }
+
+
     async deleteUser(req,res){
         try {
             const user = await User.findByIdAndDelete(req.params.id)

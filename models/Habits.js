@@ -11,19 +11,29 @@ const Habit = new mongoose.Schema({
     },
     type: {
         type: Boolean,
-        required: true
+        required: false
     },
-    start: {
-        type: Date,
-        required: true
+    counter: {
+        type: Number,
+        default: 0,
+        required: false
     },
-    end: {
-        type: Date,
+    // start: {
+    //     type: Date,
+    //     default: Date.now(),
+    //     required: false
+    // },
+    // end: {
+    //     type: Date,
+    //     required: true
+    // },
+    duration: {
+        type: Number,
         required: true
     },
     difficult: {
         type: Number,
-        required: true
+        required: false
     },
     userNickname: {
         type: String,
