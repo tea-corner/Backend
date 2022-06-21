@@ -2,7 +2,7 @@ import  mongoose from "mongoose"
 
 
 const User = new mongoose.Schema({
-    nickname: {
+    userNickname: {
         type: String,
         required: true
     },
@@ -12,63 +12,47 @@ const User = new mongoose.Schema({
     },
     level: {
         type: Number,
-        required: true
+        default: 0,
+        required: false
     },
     hp: {
         type: Number,
-        required: true
+        default: 50,
+        required: false
     },
     exp: {
         type: Number,
-        required: true
+        default: 0,
+        required: false
     },
     class: {
         type: Number,
-        required: true
+        required: false
     },
     balance: {
         type: Number,
-        required: true
-    },
-    inventory: {
-        //FIXME
-        type: Number,
-        required: true
-    },
-    habits: {
-        //FIXME
-        type: Number,
-        required: true
-    },
-    dailies: {
-        //FIXME
-        type: Number,
-        required: true
-    },
-    toDo: {
-        //FIXME
-        type: Number,
-        required: true
+        default: 0,
+        required: false
     },
     activityTools: {
         //FIXME
         type: Number,
-        required: true
+        required: false
     },
     dungeon: {
         //FIXME
         type: Number,
-        required: true
+        required: false
     },
     challengeBoard: {
         //FIXME
         type: Number,
-        required: true
+        required: false
     },
     quest: {
         //FIXME
         type: Number,
-        required: true
+        required: false
     }
 },{ versionKey: false })
 
