@@ -12,6 +12,22 @@ class UserController{
             res.json(e.message)
         }
     }
+
+    //Проверка на нахождение нового user в bd
+    async getUserOne(req,res){
+        try {
+            const user = await User.findOne({nickname: "Lorex2"})
+            if (user === null) {
+                console.log("OK")
+                res.json(user)
+            } else {
+                console.log("this user in db")
+            }
+        } catch (e){
+            res.json(e.message)
+        }
+    }
+
     async getAllUsers(req,res){
         try{
             const users = await User.find()
@@ -19,6 +35,15 @@ class UserController{
         }catch (e) {
             res.json(e.message)
         }
+    }
+    async deleteUser(req,res){
+        try{
+            const user = await User.findByIdAndDelete(req.params.id)
+            res.json(user)
+        }catch(e){
+
+        }
+
     }
 }
 
