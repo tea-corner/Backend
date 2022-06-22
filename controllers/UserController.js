@@ -47,15 +47,15 @@ class UserController{
             } else {
                 if (user.password === isDB.password) {
                     const inventory = await Inventory.findOne({userNickname: isDB.userNickname})
-                    const habits = await Habits.findOne( {userNickname: isDB.userNickname} )
-                    const dailies = await Dailies.findOne( {userNickname: isDB.userNickname} )
-                    const toDo = await ToDo.findOne( {userNickname: isDB.userNickname} )
+                    const habits = await Habits.find( {userNickname: isDB.userNickname} )
+                    const dailies = await Dailies.find( {userNickname: isDB.userNickname} )
+                    const toDo = await ToDo.find( {userNickname: isDB.userNickname} )
 
                     res.json({
                         user: isDB,
                         habits: habits,
                         dailies: dailies,
-                        toDO: toDo,
+                        todo: toDo,
                         inventory: inventory
                     })
                 } else {

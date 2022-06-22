@@ -16,6 +16,11 @@ const Dailies = new mongoose.Schema({
     userNickname: {
         type: String,
         required: true
+    },
+    completed: {
+        type: Boolean,
+        default: false,
+        required: false
     }
 },{ versionKey: false })
 
