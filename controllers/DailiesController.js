@@ -15,7 +15,7 @@ class DailiesController {
 
     async updateDailies(req, res) {
         try {
-            const dailies = await Dailies.findOne({name: req.body.name})
+            const dailies = await Dailies.findOne({name: req.body.name, userNickname: req.params.nickname})
             const completed = dailies.completed   //ToDo
             console.log(completed)
 

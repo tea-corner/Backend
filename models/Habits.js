@@ -18,6 +18,10 @@ const Habit = new mongoose.Schema({
         default: 0,
         required: false
     },
+    completed: {
+        type: Boolean,
+        required: false
+    },
     // start: {
     //     type: Date,
     //     default: Date.now(),
