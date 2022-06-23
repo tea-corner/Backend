@@ -10,7 +10,6 @@ class UserController{
 
     //регистрация
     async create(req,res){
-        // const salt = bcrypt.genSaltSync(10)
 
         try {
             const isDB = await User.findOne( {userNickname: req.body.userNickname} )
@@ -43,7 +42,7 @@ class UserController{
 
     //Авторизация
     async getUser(req,res){
-        //const salt = bcrypt.genSaltSync(10)
+
         try {
             const user = req.body
             const isDB = await User.findOne( {userNickname: user.userNickname} )
