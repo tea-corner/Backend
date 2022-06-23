@@ -7,9 +7,9 @@ import DailiesController from "../controllers/DailiesController.js";
 
 const router = new Router()
 
-router.get("/users", UserController.getUser)
-router.post("/users", UserController.create)
-router.delete("/users/:id", UserController.deleteUser)
+router.get("/user", UserController.getUser)
+router.post("/user", UserController.create)
+router.delete("/user/:id", UserController.deleteUser)
 
 router.get("/user/inventory/:nickname", InventoryController.getUserInventory)
 router.post("/user/inventory", InventoryController.createUserInventory)
@@ -18,10 +18,10 @@ router.post("/users/habits/:nickname", HabitsController.createHabit)
 router.patch("/users/habits", HabitsController.updateHabit)
 
 router.post("/user/todo/:nickname", ToDoController.createToDo)
-router.patch("/user/todo/:nickname", ToDoController.updateToDo)
+router.patch("/user/todo", ToDoController.updateToDo)
 
 router.post("/user/dailies/:nickname", DailiesController.createDailies)
-router.patch("/user/dailies/:nickname", DailiesController.updateDailies)
+router.patch("/user/dailies", DailiesController.updateDailies)
 
 
 export default router

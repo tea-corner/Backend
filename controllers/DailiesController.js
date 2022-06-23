@@ -1,4 +1,5 @@
 import Dailies from "../models/Dailies.js"
+import User from "../models/Users.js";
 
 class DailiesController {
 
@@ -15,19 +16,38 @@ class DailiesController {
 
     async updateDailies(req, res) {
         try {
-            const dailies = await Dailies.findOne({name: req.body.name, userNickname: req.params.nickname})
-            const completed = dailies.completed   //ToDo
-            console.log(completed)
-
-            Dailies.findOneAndUpdate(
-                {name: req.body.name},
-                {$set: {completed: !completed}},
-                {
-                    returnDocument: "after"
-                },
-                function (err, result) {
-                    res.json(result)
-                })
+            const d = await Dailies.findOne({name: req.query.name, userNickname: req.query.nickname})
+            const user = await User.findOne({userNickname: req.query.nickname})
+            let balance = user.balance
+            let hp = user.hp
+            let exp = user.exp
+            let level = user.level
+            exp = exp + 5
+            if(exp % 30  === 0){
+                level++
+                exp = 0
+            }
+            balance += 5
+            const  result = await User.updateOne(
+                {userNickname: req.query.nickname},
+                {$set: {
+                        balance: balance,
+                        hp: hp,
+                        exp: exp,
+                        level: level
+                    }
+                }) //updateOne
+            const del = await Dailies.updateOne({userNickname: req.query.nickname, name: req.query.name},{
+                $set: {
+                    completed: !d.completed
+                }
+            })
+            res.json({
+                balance: balance,
+                hp: hp,
+                level: level,
+                exp: exp
+            })
         }
         catch(e) {
             console.log("Update dailies\n" + e)

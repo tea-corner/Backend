@@ -1,5 +1,5 @@
 import ToDo from "../models/ToDo.js";
-
+import User from "../models/Users.js"
 
 class ToDoController {
 
@@ -16,29 +16,35 @@ class ToDoController {
 
     async updateToDo(req, res) {
         try {
-            const toDo = await ToDo.findOne({name: req.body.name})
-            const completed = toDo.completed
-            console.log(completed)
-            if (completed) {
-                //Задача завершилась, надо удалить
-                ToDo.findOneAndDelete({name: req.body.name}, function (err, result) {
-                    console.log("delete to-do \n" + result)
-                    res.json(null)
-                })
-            } else {
-                // ?????
-                // ToDo.findOneAndUpdate(
-                //     {name: req.body.name},
-                //     {$set: {completed: !completed}},
-                //     {
-                //         returnDocument: "after"
-                //     },
-                //     function (err, result) {
-                //         res.json(result)
-                //     }
-                // )
-            }
 
+            const t = await ToDo.findOne({name: req.query.name, userNickname: req.query.nickname})
+            const user = await User.findOne({userNickname: req.query.nickname})
+            let balance = user.balance
+            let hp = user.hp
+            let exp = user.exp
+            let level = user.level
+            exp = exp + 5
+            if(exp % 30  === 0){
+                level++
+                exp = 0
+            }
+            balance += 5
+            const  result = await User.updateOne(
+                {userNickname: req.query.nickname},
+                {$set: {
+                        balance: balance,
+                        hp: hp,
+                        exp: exp,
+                        level: level
+                    }
+                }) //updateOne
+            const del = await ToDo.deleteOne({userNickname: req.query.nickname, name: req.query.name})
+            res.json({
+                balance: balance,
+                hp: hp,
+                level: level,
+                exp: exp
+            })
         } catch(e) {
             console.log("Update todo\n" + e)
         }
