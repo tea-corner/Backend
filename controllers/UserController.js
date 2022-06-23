@@ -1,19 +1,24 @@
-import User from "../models/Users.js"
+
+import User from "../models/Users.js";
 import Inventory from "../models/Inventory.js";
 import Dailies from "../models/Dailies.js";
 import Habits from "../models/Habits.js";
 import ToDo from "../models/ToDo.js";
+import bcrypt from "bcrypt";
 
 class UserController{
 
     //регистрация
     async create(req,res){
+        // const salt = bcrypt.genSaltSync(10)
+
         try {
             const isDB = await User.findOne( {userNickname: req.body.userNickname} )
             console.log(isDB)
             if (isDB === null) {
                 console.log("getUserExam is not DB")
-                const newUser = await User.create(req.body)
+                const genPassword = bcrypt.hashSync(req.body.password, 10)
+                const newUser = await User.create({userNickname: req.body.userNickname, password: genPassword})
                 const inventory = await Inventory.create({userNickname: req.body.userNickname})
                 const habits = await Habits.find( {userNickname: req.body.userNickname} )
                 const dailies = await Dailies.find( {userNickname: req.body.userNickname} )
@@ -38,6 +43,7 @@ class UserController{
 
     //Авторизация
     async getUser(req,res){
+        //const salt = bcrypt.genSaltSync(10)
         try {
             const user = req.body
             const isDB = await User.findOne( {userNickname: user.userNickname} )
@@ -45,7 +51,7 @@ class UserController{
                 console.log("User not found")
                 res.json("User not found")
             } else {
-                if (user.password === isDB.password) {
+                if (bcrypt.compareSync(user.password, isDB.password)) {
                     const inventory = await Inventory.findOne({userNickname: isDB.userNickname})
                     const habits = await Habits.find( {userNickname: isDB.userNickname} )
                     const dailies = await Dailies.find( {userNickname: isDB.userNickname} )

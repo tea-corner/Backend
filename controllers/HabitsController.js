@@ -2,7 +2,7 @@
 import Habit from "../models/Habits.js";
 import Users from "../models/Users.js";
 import User from "../models/Users.js";
-import express from "express";
+
 
 class HabitsController {
 
@@ -15,50 +15,102 @@ class HabitsController {
         } catch (e) {
             res.json(e.message)
         }
-    }
+    } //createHabit
 
     //TODO дописать функцию, когда привычка не выполнена
     async updateHabit(req, res) {
        try {
-           const h = await Habit.findOne({name: req.body.name, userNickname: req.params.nickname})
-           const user = await User.findOne({userNickname: req.params.nickname})
-           console.log(user)
+           const h = await Habit.findOne({name: req.query.name, userNickname: req.query.nickname})
+           const user = await User.findOne({userNickname: req.query.nickname})
+
            let counter = h.counter
-           if (req.body.completed) {
+           let balance = user.balance
+           let hp = user.hp
+           let exp = user.exp
+           let level = user.level
+
+           if (req.query.completed === true) {
                counter = counter + 1
-               const result = await User.updateOne({userNickname: req.params.nickname}, {$set: {balance: user.balance + 5}})
+               exp = exp + 5
+               if (exp % 30 === 0) { //FIXME нужно сделать значение при котором level удет обновляться
+                   level++
+                   exp = 0
+               }
+
+               const result = await User.updateOne(
+                   {userNickname: req.query.nickname},
+                   {$set: {
+                            balance: balance + 5,
+                           hp: hp,
+                           exp: exp,
+                           level: level
+                        }
+                   }) //updateOne
+
                console.log(result)
            } else {
                counter = counter - 1
                if (counter < 0) counter = 0
-               let b = user.balance - 5
-               if (b < 0) b = 0
-               const result = await User.updateOne({userNickname: req.params.nickname}, {$set: {balance: b}})
+
+               balance = (balance - 5 < 0) ? 0 : balance - 5
+
+               /*
+               если ph кончилось, то мы проигрываем, обновляем его, а остальные показатели обнуляем
+               level остаетс неизменным(но это под вопросом еще).
+               TODO нужно удаить предметы из инвентаря
+                */
+               hp = hp - 5
+               exp = (exp - 5 < 0) ? 0 : exp - 5
+               if (hp <= 0) {
+                   hp = 50
+                   balance = 0
+                   exp = 0
+               } //if
+
+               const result = await User.updateOne(
+                   {userNickname: req.query.nickname},
+                   {$set: {
+                           balance: balance,
+                           hp: hp,
+                           exp: exp,
+                           level: level
+                       }
+                   }) //updateOne
+
                console.log(result)
-           }
-           if (counter === h.duration) {
-               //Привычка завершилась, надо удалить
-               await Habit.findOneAndDelete({name: req.body.name}, function (err, result) {
+           } //else
+           if (counter === h.duration) { //Привычка завершилась, надо удалить
+
+               await Habit.findOneAndDelete({name: req.query.name}, function (err, result) {
                    console.log("delete habit \n" + result)
-                   res.json(null)
-               })
+                   res.json({
+                       habit: null,
+                       balance: balance
+                   })
+               }) //finOneAndUpdate
+
            } else {
-               await Habit.findOneAndUpdate(
-                   {name: req.body.name},
+                Habit.findOneAndUpdate(
+                    {name: req.query.name, userNickname: req.query.nickname},
                    {$set: {counter: counter}},
                    {
                        returnDocument: "after"
                    },
                    function (err, result) {
-                       res.json(result)
+                       res.json({habit: result,
+                           balance: balance,
+                           hp: hp,
+                           exp: exp,
+                           level: level
+                       })
                    }
-               )
-           }
+               ) //findOneAndUpdate
+           } //else
 
        } catch(e) {
         console.log("Update Habit\n" + e)
        }
-    }
+    } //updateHabit
 
     async getHabit(req,res){
         try {
@@ -71,7 +123,7 @@ class HabitsController {
         } catch (e){
             res.json(e.message)
         }
-    }
+    } //getHabit
 
 }
 export default new HabitsController()
