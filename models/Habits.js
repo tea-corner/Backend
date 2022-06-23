@@ -22,6 +22,11 @@ const Habit = new mongoose.Schema({
         type: Boolean,
         required: false
     },
+    dayCount: {
+        type: Number,
+        default: 0,
+        required: false
+    },
     // start: {
     //     type: Date,
     //     default: Date.now(),

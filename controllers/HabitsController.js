@@ -1,10 +1,18 @@
 
 import Habit from "../models/Habits.js";
-import Users from "../models/Users.js";
 import User from "../models/Users.js";
+import cron from "node-cron";
 
 
 class HabitsController {
+
+    constructor() {
+        cron.schedule('00 00 * * *', function () {
+            Habit.updateMany({}, {dayCount: 0}, function(err, result) {
+                console.log("habits is updating, dayCount = 0")
+            })
+        })
+    }
 
     async createHabit(req,res) {
         try {
@@ -21,6 +29,8 @@ class HabitsController {
     async updateHabit(req, res) {
        try {
            const h = await Habit.findOne({name: req.query.name, userNickname: req.query.nickname})
+           console.log(h)
+
            const user = await User.findOne({userNickname: req.query.nickname})
 
            let counter = h.counter
@@ -29,7 +39,20 @@ class HabitsController {
            let exp = user.exp
            let level = user.level
 
-           if (req.query.completed === true) {
+           let dayCount = h.dayCount
+
+           if (dayCount >= 1) {
+               res.json({
+                   habit: h,
+                   balance: balance,
+                   hp: hp,
+                   exp: exp,
+                   level: level
+               })
+               return
+           }
+
+           if (req.query.completed) {
                counter = counter + 1
                exp = exp + 5
                if (exp % 30 === 0) { //FIXME нужно сделать значение при котором level удет обновляться
@@ -92,7 +115,7 @@ class HabitsController {
            } else {
                 Habit.findOneAndUpdate(
                     {name: req.query.name, userNickname: req.query.nickname},
-                   {$set: {counter: counter}},
+                   {$set: {counter: counter, dayCount: dayCount + 1}},
                    {
                        returnDocument: "after"
                    },

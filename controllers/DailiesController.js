@@ -1,7 +1,16 @@
+import cron from "node-cron"
 import Dailies from "../models/Dailies.js"
 import User from "../models/Users.js";
 
 class DailiesController {
+
+    constructor() {
+        cron.schedule('00 00 * * *', function () {
+            Dailies.updateMany({}, {completed: false}, function(err, result) {
+                console.log("dailies is updating, competed = false")
+            })
+        })
+    }
 
     async createDailies(req, res) {
         try {
