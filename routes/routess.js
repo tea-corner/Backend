@@ -11,16 +11,19 @@ router.get("/user", UserController.getUser)
 router.post("/user", UserController.create)
 router.delete("/user/:id", UserController.deleteUser)
 
-router.get("/user/inventory/:nickname", InventoryController.getUserInventory)
+router.get("/user/inventory", InventoryController.getUserInventory)
 router.post("/user/inventory", InventoryController.createUserInventory)
 
-router.post("/user/habits/:nickname", HabitsController.createHabit)
+router.get("/user/habits", HabitsController.getHabits)
+router.post("/user/habits", HabitsController.createHabit)
 router.patch("/user/habits", HabitsController.updateHabit)
 
-router.post("/user/todo/:nickname", ToDoController.createToDo)
-router.patch("/user/todo", ToDoController.updateToDo)
+router.get("/user/todos", ToDoController.getToDo)
+router.post("/user/todos", ToDoController.createToDo)
+router.patch("/user/todos", ToDoController.updateToDo)
 
-router.post("/user/dailies/:nickname", DailiesController.createDailies)
+router.get("/user/dailies", DailiesController.getDailies)
+router.post("/user/dailies", DailiesController.createDailies)
 router.patch("/user/dailies", DailiesController.updateDailies)
 
 

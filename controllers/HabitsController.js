@@ -134,14 +134,13 @@ class HabitsController {
        }
     } //updateHabit
 
-    async getHabit(req,res){
+    async getHabits(req,res){
         try {
-            const h = await Habit.findOne({userNickname: req.params.userNickname})
-            if (h == null) {
-                console.log("404")
-            }
-            res.json(h)
-            console.log(h)
+            Habit.find({userNickname: req.query.nickname}, function (err, docs) {
+                if (err) console.log(err)
+                res.json(docs)
+            })
+
         } catch (e){
             res.json(e.message)
         }

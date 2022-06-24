@@ -12,7 +12,7 @@ const ToDo = new mongoose.Schema({
     },
     difficult: {
         type: Number,
-        required: true
+        required: false
     },
     userNickname: {
         type: String,
