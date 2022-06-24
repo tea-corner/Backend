@@ -17,7 +17,7 @@ class InventoryController {
 
     async getUserInventory(req,res){
         try {
-            const inventory = await Inventory.findOne({userNickname: req.params.userNickname})
+            const inventory = await Inventory.findOne({userNickname: req.query.nickname})
             if (inventory == null) {
                 console.log("404")
             }

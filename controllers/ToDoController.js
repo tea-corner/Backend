@@ -1,5 +1,7 @@
 import ToDo from "../models/ToDo.js";
 import User from "../models/Users.js"
+import HabitsController from "./HabitsController.js";
+import router from "../routes/routess.js";
 
 class ToDoController {
 
@@ -52,12 +54,10 @@ class ToDoController {
 
     async getToDo(req,res){
         try {
-            const todo = await ToDo.findOne({userNickname: req.params.userNickname})
-            if (todo == null) {
-                console.log("404")
-            }
-            res.json(todo)
-            console.log(todo)
+            ToDo.find({userNickname: req.query.nickname}, function (err, docs) {
+                if (err) console.log(err)
+                res.json(docs)
+            })
         } catch (e){
             res.json(e.message)
         }

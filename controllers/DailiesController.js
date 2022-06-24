@@ -66,12 +66,10 @@ class DailiesController {
 
     async getDailies(req,res){
         try {
-            const Dailies = await Dailies.findOne({userNickname: req.params.userNickname})
-            if (Dailies == null) {
-                console.log("404")
-            }
-            res.json(Dailies)
-            console.log(Dailies)
+            Dailies.find({userNickname: req.query.nickname}, function (err, docs) {
+                if (err) console.log(err)
+                res.json(docs)
+            })
         } catch (e){
             res.json(e.message)
         }
