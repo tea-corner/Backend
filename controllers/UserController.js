@@ -12,16 +12,16 @@ class UserController{
     async create(req,res){
 
         try {
-            const isDB = await User.findOne( {userNickname: req.body.userNickname} )
+            const isDB = await User.findOne( {userNickname: req.query.nickname} )
             console.log(isDB)
             if (isDB === null) {
                 console.log("getUserExam is not DB")
-                const genPassword = bcrypt.hashSync(req.body.password, 10)
-                const newUser = await User.create({userNickname: req.body.userNickname, password: genPassword})
-                const inventory = await Inventory.create({userNickname: req.body.userNickname})
-                const habits = await Habits.find( {userNickname: req.body.userNickname} )
-                const dailies = await Dailies.find( {userNickname: req.body.userNickname} )
-                const toDo = await ToDo.find( {userNickname: req.body.userNickname} )
+                const genPassword = bcrypt.hashSync(req.query.password, 10)
+                const newUser = await User.create({userNickname: req.query.nickname, password: genPassword})
+                const inventory = await Inventory.create({userNickname: req.query.nickname})
+                const habits = await Habits.find( {userNickname: req.query.nickname} )
+                const dailies = await Dailies.find( {userNickname: req.query.nickname} )
+                const toDo = await ToDo.find( {userNickname: req.query.nickname} )
 
                 res.json({
                     user: newUser,
@@ -44,8 +44,8 @@ class UserController{
     async getUser(req,res){
 
         try {
-            const user = req.body
-            const isDB = await User.findOne( {userNickname: user.userNickname} )
+            const user = req.query
+            const isDB = await User.findOne( {userNickname: user.nickname} )
             if (isDB === null) {
                 console.log("User not found")
                 res.json("User not found")

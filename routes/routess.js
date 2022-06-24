@@ -14,8 +14,8 @@ router.delete("/user/:id", UserController.deleteUser)
 router.get("/user/inventory/:nickname", InventoryController.getUserInventory)
 router.post("/user/inventory", InventoryController.createUserInventory)
 
-router.post("/users/habits/:nickname", HabitsController.createHabit)
-router.patch("/users/habits", HabitsController.updateHabit)
+router.post("/user/habits/:nickname", HabitsController.createHabit)
+router.patch("/user/habits", HabitsController.updateHabit)
 
 router.post("/user/todo/:nickname", ToDoController.createToDo)
 router.patch("/user/todo", ToDoController.updateToDo)

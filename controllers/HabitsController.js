@@ -30,7 +30,6 @@ class HabitsController {
        try {
            const h = await Habit.findOne({name: req.query.name, userNickname: req.query.nickname})
            console.log(h)
-
            const user = await User.findOne({userNickname: req.query.nickname})
 
            let counter = h.counter
@@ -41,7 +40,7 @@ class HabitsController {
 
            let dayCount = h.dayCount
 
-           if (dayCount >= 1) {
+           if (dayCount >= 1) { //наверное надо что-то поменять
                res.json({
                    habit: h,
                    balance: balance,
