@@ -5,7 +5,7 @@ const Resource = new mongoose.Schema({
         type: String,
         required: true
     },
-    damage:{
+    effect:{
         type: Number,
         required: true
     },

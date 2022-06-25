@@ -1,9 +1,9 @@
 
 import Inventory from "../models/Inventory.js";
-import User from "../models/Users.js";
-import Armor from "../models/Inventory.js";
 import Weapon from "../models/Weapons.js";
+import Armor from "../models/Armors.js";
 import Resource from "../models/Resources.js";
+
 
 class InventoryController {
 
@@ -39,16 +39,36 @@ class InventoryController {
             let armors = inventory.armors
             let resources = inventory.resources
 
-            if (req.query.type === "Weapons") {
-                const w = Weapon.findOne({name: req.query.name})
-                console.log(w)
-                weapons.push(w)
-            } else if (req.query.type === "Armors") {
-                const a = Armor.findOne({name: req.query.name})
+            if (req.query.type === "weapons") {
+                const w = await Weapon.findOne({name: req.query.name})
+                if (w === null) {
+                    res.json("Weapons isn't find ")
+                    return
+                }
+                else{
+                    weapons.push(w)
+                }
+
+            } else if (req.query.type === "armors") {
+                const a = await Armor.findOne({name: req.query.name})
                 armors.push(a)
-            } else if (req.query.type === "Resources") {
-                const r = Resource.findOne({name: req.query.name})
+                if (a === null) {
+                    res.json("Armors isn't find ")
+                    return
+                }
+                else{
+                    weapons.push(a)
+                }
+            } else if (req.query.type === "resources") {
+                const r = await Resource.findOne({name: req.query.name})
                 resources.push(r)
+                if (r === null) {
+                    res.json("Resources isn't find ")
+                    return
+                }
+                else{
+                    weapons.push(r)
+                }
             }
 
             Inventory.findOneAndUpdate(
@@ -78,7 +98,6 @@ class InventoryController {
             if (inventory == null) {
                 console.log("404")
             }
-
             res.json(inventory)
             console.log(inventory)
         } catch (e){

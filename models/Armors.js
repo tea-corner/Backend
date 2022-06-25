@@ -5,7 +5,7 @@ const Armor = new mongoose.Schema({
         type: String,
         required: true
     },
-    damage:{
+    defence:{
         type: Number,
         required: true
     },
