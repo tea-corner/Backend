@@ -1,6 +1,7 @@
 import  express from "express"
 import mongoose from "mongoose"
 import routers from "./routes/routess.js"
+
 const PORT = 7000
 
 const DB_URL = "mongodb+srv://lorex59:25092003Danil@project.lfdeyhb.mongodb.net/project?retryWrites=true&w=majority"
@@ -9,7 +10,7 @@ const app = express()
 
 app.use(express.json())
 app.use("/api", routers)
-
+app.use("/api", express.static('public'))
 
 async function startApp(uri, callback){
     try {
