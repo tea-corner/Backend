@@ -14,5 +14,4 @@ const Inventory = new mongoose.Schema({
 
 },{ versionKey: false })
 
-
 export default mongoose.model("Inventories", Inventory)

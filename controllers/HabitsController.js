@@ -53,7 +53,8 @@ class HabitsController {
 
            if (req.query.completed) {
                counter = counter + 1
-               exp = exp + 5
+               exp = exp + h.difficult
+               balance = balance + h.difficult
                if (exp % 30 === 0) { //FIXME нужно сделать значение при котором level удет обновляться
                    level++
                    exp = 0
@@ -62,10 +63,10 @@ class HabitsController {
                const result = await User.updateOne(
                    {userNickname: req.query.nickname},
                    {$set: {
-                            balance: balance + 5,
-                           hp: hp,
-                           exp: exp,
-                           level: level
+                            balance: balance,
+                            hp: hp,
+                            exp: exp,
+                            level: level
                         }
                    }) //updateOne
 
@@ -74,15 +75,15 @@ class HabitsController {
                counter = counter - 1
                if (counter < 0) counter = 0
 
-               balance = (balance - 5 < 0) ? 0 : balance - 5
+               balance = (balance - h.difficult < 0) ? 0 : balance - h.difficult
 
                /*
                если ph кончилось, то мы проигрываем, обновляем его, а остальные показатели обнуляем
                level остаетс неизменным(но это под вопросом еще).
                TODO нужно удаить предметы из инвентаря
                 */
-               hp = hp - 5
-               exp = (exp - 5 < 0) ? 0 : exp - 5
+               hp = hp - h.difficult
+               exp = (exp - h.difficult < 0) ? 0 : exp - h.difficult
                if (hp <= 0) {
                    hp = 50
                    balance = 0

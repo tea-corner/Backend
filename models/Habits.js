@@ -27,21 +27,13 @@ const Habit = new mongoose.Schema({
         default: 0,
         required: false
     },
-    // start: {
-    //     type: Date,
-    //     default: Date.now(),
-    //     required: false
-    // },
-    // end: {
-    //     type: Date,
-    //     required: true
-    // },
     duration: {
         type: Number,
         required: true
     },
     difficult: {
         type: Number,
+        default: 1,
         required: false
     },
     userNickname: {

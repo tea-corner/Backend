@@ -15,6 +15,8 @@ router.delete("/user/:id", UserController.deleteUser)
 router.get("/user/inventory", InventoryController.getUserInventory)
 router.post("/user/inventory", InventoryController.createUserInventory)
 router.post("/user/inventory/weapon", InventoryController.addWeapon)//тест
+router.post("/user/inventory/armor",InventoryController.addArmor)
+router.post("/user/inventory/resources",InventoryController.addResources)
 router.patch("/user/inventory", InventoryController.updateUserInventory)
 
 router.get("/user/habits", HabitsController.getHabits)

@@ -25,12 +25,12 @@ class ToDoController {
             let hp = user.hp
             let exp = user.exp
             let level = user.level
-            exp = exp + 5
+            exp = exp + t.difficult
             if(exp % 30  === 0){
                 level++
                 exp = 0
             }
-            balance += 5
+            balance += t.difficult
             const  result = await User.updateOne(
                 {userNickname: req.query.nickname},
                 {$set: {

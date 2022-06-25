@@ -17,6 +17,28 @@ class InventoryController {
             res.json(e.message)
         }
     }
+    async addArmor(req,res){
+        try{
+            const armorPost = req.body
+            const armor = await Armor.create(armorPost)
+            console.log(armorPost)
+            res.json(armor)
+        }catch (e){
+            res.json(e.message)
+        }
+
+    }
+    async addResources(req,res){
+        try{
+            const resourcesPost = req.body
+            const resources = await Resource.create(resourcesPost)
+            console.log(resourcesPost)
+            res.json(resources)
+        }catch (e){
+            res.json(e.message)
+        }
+
+    }
     async addWeapon(req,res){
         try{
             const weaponPost = req.body
