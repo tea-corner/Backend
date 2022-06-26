@@ -8,6 +8,7 @@ const PORT = 7000
 const DB_URL = "mongodb+srv://lorex59:25092003Danil@project.lfdeyhb.mongodb.net/project?retryWrites=true&w=majority"
 
 const app = express()
+//sdfsf
 
 app.use(cors({
     origin: "*",
