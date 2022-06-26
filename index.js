@@ -11,7 +11,7 @@ const app = express()
 //sdfsf
 
 app.use(cors({
-    origin: "*",
+    origin: "http://localhost:7000",
     methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']
 }))
 
