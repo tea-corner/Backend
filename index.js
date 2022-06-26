@@ -16,8 +16,8 @@ app.use(cors({
 }))
 
 app.use(express.json())
-app.use("/api", routers)
-app.use("/api", express.static('public'))
+app.use("/api", cors(), routers)
+app.use("/api", cors(), express.static('public'))
 
 async function startApp(uri, callback){
     try {
